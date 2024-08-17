@@ -2,11 +2,16 @@ import java.util.ArrayList;
 
 public class Book {
     private ArrayList<BookCopy> copies;
+    private ArrayList<User> usersWhoBooked;
+    private String bookId;
 
-    public Book() {
+    public Book(String bookId) {
         this.copies = new ArrayList<BookCopy>();
+        this.usersWhoBooked = new ArrayList<User>();
+        this.bookId = bookId;
     }
 
+    
     public void addCopy(BookCopy copy) {
         this.copies.add(copy);
     }
@@ -22,6 +27,32 @@ public class Book {
             }
         }
         return null;
+    }
+
+    public void receiveBookingRequest(User user) {
+        this.usersWhoBooked.add(user);
+    }
+
+    public void removeBookingRequest(User user) {
+        this.usersWhoBooked.remove(user);
+    }
+
+    public int getNumAvailableCopies() {
+        int count = 0;
+        for (BookCopy copy : this.copies) {
+            if (!copy.isBorrowed()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public boolean isFullyBorrowed() {
+        return this.getNumAvailableCopies() == 0;
+    }
+
+    public boolean isFullyBooked() {
+        return this.usersWhoBooked.size() >= this.copies.size();
     }
 
     public void removeCopyById(String id) {
@@ -41,4 +72,10 @@ public class Book {
             }
         }
     }
+
+    public String getBookId() {
+        return this.bookId;
+    }
+
+    
 }

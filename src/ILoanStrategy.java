@@ -1,3 +1,3 @@
 public interface ILoanStrategy {
-    public boolean checkLoanEligibility(User user, BookCopy copy);
+    public boolean checkLoanEligibility(User user, Book book);
 }

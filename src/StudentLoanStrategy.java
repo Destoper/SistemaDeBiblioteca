@@ -1,6 +1,11 @@
 public class StudentLoanStrategy implements ILoanStrategy {
     @Override
-    public boolean checkLoanEligibility(User user, BookCopy copy) {
-        return true;
+    public boolean checkLoanEligibility(User user, Book book) {
+        if (book.isFullyBorrowed() || !user.isAvailable()) {
+            return false;
+        }
+
+        return !book.isFullyBooked() || user.hasBooking(book);
     }
 }
+
