@@ -1,6 +1,6 @@
 public class BookCopy {
-    private final String id;
-    private final String code;
+    private final String copyCode;
+    private final String bookCode;
     private String title;
     private String authors;
     private String publisher;
@@ -8,9 +8,9 @@ public class BookCopy {
     private String edition;
     private boolean isBorrowed = false;
 
-    public BookCopy(String id, String code ,String title, String authors, String publisher, String year, String edition) {
-        this.id = id;
-        this.code = code;
+    public BookCopy(String copyCode, String bookCode, String title, String authors, String publisher, String year, String edition) {
+        this.copyCode = copyCode;
+        this.bookCode = bookCode;
         this.title = title;
         this.authors = authors;
         this.publisher = publisher;
@@ -18,12 +18,12 @@ public class BookCopy {
         this.edition = edition;
     }
 
-    public String getId() {
-        return id;
+    public String getCopyCode() {
+        return this.copyCode;
     }
 
     public String getCode() {
-        return code;
+        return bookCode;
     }
 
     public String getTitle() {

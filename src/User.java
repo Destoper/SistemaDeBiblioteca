@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 public abstract class User {
     private ILoanStrategy loanStrategy;
@@ -6,6 +7,9 @@ public abstract class User {
     private String name;
     private ArrayList<BorrowedBook> borrowedBooks = new ArrayList<BorrowedBook>();
     private int maxBorrowedDays;
+    private static final int MAX_BOOKINGS = 3;
+
+    private ArrayList<Book> bookedBooks = new ArrayList<Book>();
 
     public User(String id, String name, ILoanStrategy loanStrategy, int maxBorrowedDays) {
         this.id = id;
@@ -45,16 +49,49 @@ public abstract class User {
     }
 
     public boolean hasBooking(Book book) {
-        for (BorrowedBook borrowedBook : this.borrowedBooks) {
-            if (borrowedBook.getBookCode().equals(book)) {
+        for (Book bookedBook : this.bookedBooks) {
+            if (bookedBook.getBookCode().equals(book.getBookCode())) {
                 return true;
             }
         }
         return false;
     }
 
+    public void addBooking(Book book) {
+        this.bookedBooks.add(book);
+    }
+
+    public void removeBooking(Book book) {
+        this.bookedBooks.remove(book);
+    }
+
+    public ArrayList<Book> getBookedBooks() {
+        return this.bookedBooks;
+    }
+
+    public void setLoanStrategy(ILoanStrategy loanStrategy) {
+        this.loanStrategy = loanStrategy;
+    }
+
+    public boolean isReservationLimitReached() {
+        return this.bookedBooks.size() >= MAX_BOOKINGS;
+    }
+
     public int getNumBorrowedBooks() {
         return this.borrowedBooks.size();
+    }
+
+    public void borrowBook(BookCopy bookCopy) {
+        this.borrowedBooks.add(new BorrowedBook(bookCopy, LocalDate.now()));
+    }
+
+    public void returnBook(BookCopy bookCopy) {
+        for (BorrowedBook borrowedBook : this.borrowedBooks) {
+            if (borrowedBook.getBorrowedBook() == bookCopy) {
+                this.borrowedBooks.remove(borrowedBook);
+                break;
+            }
+        }
     }
 
     public abstract boolean isAvailable();
