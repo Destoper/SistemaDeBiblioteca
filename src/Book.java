@@ -33,7 +33,9 @@ public class Book implements ISubject {
     }
 
     public void receiveBookingRequest(User user) {
-        this.usersWhoBooked.add(user);
+        if(!user.isReservationLimitReached()) {
+            this.usersWhoBooked.add(user);
+        }
 
         if (this.usersWhoBooked.size() >= MIN_NOTIFY_OBSERVERS) {
             this.notifyObservers();
