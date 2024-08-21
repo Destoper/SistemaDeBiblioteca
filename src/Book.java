@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Book implements ISubject {
+public class Book implements ISubject, ILoanable {
     private ArrayList<BookCopy> copies;
     private ArrayList<User> usersWhoBooked;
     private String bookCode;
@@ -64,9 +64,9 @@ public class Book implements ISubject {
         return this.usersWhoBooked.size() >= this.copies.size();
     }
 
-    public void removeCopyByCopyCode(String copieCode) {
+    public void removeCopyByCopyCode(String copyCode) {
         for (BookCopy copy : this.copies) {
-            if (copy.getCopyCode().equals(copieCode)) {
+            if (copy.getCopyCode().equals(copyCode)) {
                 this.copies.remove(copy);
                 return;
             }
