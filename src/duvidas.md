@@ -1,0 +1,1 @@
+Seria interessante criar uma interface do tipo Item ou Emprestavel para que, no futuro, a blioteca possa emprestar coisas alem de livros?

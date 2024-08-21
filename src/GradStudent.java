@@ -2,8 +2,8 @@ public class GradStudent extends User {
     static final int MAX_BORROWED_BOOKS = 3;
     static final int MAX_BORROWED_DAYS = 3;
 
-    public GradStudent(String name, String email, ILoanStrategy loanStrategy) {
-        super(name, email, loanStrategy, MAX_BORROWED_DAYS);
+    public GradStudent(String id, String name, ILoanStrategy loanStrategy) {
+        super(id, name, loanStrategy, MAX_BORROWED_DAYS);
     }
 
     @Override

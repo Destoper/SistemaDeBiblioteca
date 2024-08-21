@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.time.LocalDate;
 
 public abstract class User {
     private ILoanStrategy loanStrategy;
@@ -9,7 +8,7 @@ public abstract class User {
     private int maxBorrowedDays;
     private static final int MAX_BOOKINGS = 3;
 
-    private ArrayList<Book> bookedBooks = new ArrayList<Book>();
+    private ArrayList<ReservedBook> reservedBooks = new ArrayList<ReservedBook>();
 
     public User(String id, String name, ILoanStrategy loanStrategy, int maxBorrowedDays) {
         this.id = id;
@@ -41,40 +40,45 @@ public abstract class User {
 
     public boolean isInDebt() {
         for (BorrowedBook borrowedBook : this.borrowedBooks) {
-            if (borrowedBook.daysPassed() > this.maxBorrowedDays) {
+            if (borrowedBook.getStatus() == LoanStatus.LATE) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean hasBooking(Book book) {
-        for (Book bookedBook : this.bookedBooks) {
-            if (bookedBook.getBookCode().equals(book.getBookCode())) {
+    public boolean hasReserved(Book book) {
+        for (ReservedBook reservedBook : this.reservedBooks) {
+            if (reservedBook.getBookCode().equals(book.getBookCode())) {
                 return true;
             }
         }
         return false;
     }
 
-    public void addBooking(Book book) {
-        this.bookedBooks.add(book);
+    public void addReservation(Book book) {
+        this.reservedBooks.add(new ReservedBook(book));
     }
 
-    public void removeBooking(Book book) {
-        this.bookedBooks.remove(book);
+    public void removeReservation(Book book) {
+        for (ReservedBook reservedBook : this.reservedBooks) {
+            if (reservedBook.getBookCode().equals(book.getBookCode())) {
+                this.reservedBooks.remove(reservedBook);
+                break;
+            }
+        }
     }
 
-    public ArrayList<Book> getBookedBooks() {
-        return this.bookedBooks;
+    public ArrayList<ReservedBook> getReservedBooks() {
+        return this.reservedBooks;
+    }
+
+    public boolean isReservationLimitReached() {
+        return this.reservedBooks.size() >= MAX_BOOKINGS;
     }
 
     public void setLoanStrategy(ILoanStrategy loanStrategy) {
         this.loanStrategy = loanStrategy;
-    }
-
-    public boolean isReservationLimitReached() {
-        return this.bookedBooks.size() >= MAX_BOOKINGS;
     }
 
     public int getNumBorrowedBooks() {
@@ -82,13 +86,28 @@ public abstract class User {
     }
 
     public void borrowBook(BookCopy bookCopy) {
-        this.borrowedBooks.add(new BorrowedBook(bookCopy, LocalDate.now()));
+
+        // verifica se ja tem o livro (Nao se precisa)
+        for (BorrowedBook borrowedBook : this.borrowedBooks) {
+            if (borrowedBook.getBookCopy() == bookCopy) {
+                return;
+            }
+        }
+
+        for (ReservedBook reservedBook : this.reservedBooks) {
+            if (reservedBook.getBookCode().equals(bookCopy.getBookCode())) {
+                this.reservedBooks.remove(reservedBook);
+                break;
+            }
+        }
+
+        this.borrowedBooks.add(new BorrowedBook(bookCopy, this.maxBorrowedDays));
     }
 
-    public void returnBook(BookCopy bookCopy) {
-        for (BorrowedBook borrowedBook : this.borrowedBooks) {
-            if (borrowedBook.getBorrowedBook() == bookCopy) {
-                this.borrowedBooks.remove(borrowedBook);
+    public void returnBookCopy(BookCopy bookCopy) {
+        for (BorrowedBook reservedBook : this.borrowedBooks) {
+            if (reservedBook.getBookCopy() == bookCopy) {
+                reservedBook.returnBookCopy();
                 break;
             }
         }

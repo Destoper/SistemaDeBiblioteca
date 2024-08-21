@@ -22,7 +22,7 @@ public class BookCopy {
         return this.copyCode;
     }
 
-    public String getCode() {
+    public String getBookCode() {
         return bookCode;
     }
 

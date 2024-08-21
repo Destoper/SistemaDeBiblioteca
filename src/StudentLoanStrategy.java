@@ -5,7 +5,7 @@ public class StudentLoanStrategy implements ILoanStrategy {
             return false;
         }
 
-        return !book.isFullyBooked() || user.hasBooking(book);
+        return !book.isFullyBooked() || user.hasReserved(book);
     }
 }
 
