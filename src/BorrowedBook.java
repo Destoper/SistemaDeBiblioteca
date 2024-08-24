@@ -35,6 +35,7 @@ class BorrowedBook{
 
     public void returnBookCopy(){
         this.status = LoanStatus.RETURNED;
+        this.bookCopy.setBorrowed(false);
         this.dateReturned = LocalDate.now();
     }
 

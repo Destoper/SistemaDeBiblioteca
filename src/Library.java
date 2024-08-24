@@ -45,9 +45,12 @@ public class Library {
 
     public void returnBook(String userCode, String bookCode) {
         User user = getUser(userCode);
-        Book book = getBook(bookCode);
-        user.returnBookCopy(book);
-        System.out.println("Livro devolvido pelo usuário: " + userCode + " com livro: " + bookCode);
+        try {
+            user.returnBookCopy(bookCode);
+            System.out.println("Livro devolvido pelo usuário: " + userCode + " com livro: " + bookCode);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 

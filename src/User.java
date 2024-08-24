@@ -102,6 +102,7 @@ public abstract class User {
         }
 
         if (this.canBorrow(book)) {
+            bookCopy.setBorrowed(true);
             this.borrowedBooks.add(new BorrowedBook(bookCopy, this.maxBorrowedDays));
         } else {
             throw new RuntimeException("User cannot borrow this book");
@@ -109,16 +110,16 @@ public abstract class User {
 
     }
 
-    public void returnBookCopy(Book book) {
-        BookCopy bookCopy = book.getAvailableCopy();
+    public void returnBookCopy(String bookCode) {
 
         for (BorrowedBook reservedBook : this.borrowedBooks) {
-            if (reservedBook.getBookCopy() == bookCopy) {
+            if (reservedBook.getBookCode().equals(bookCode)) {
                 reservedBook.returnBookCopy();
                 this.borrowedBooks.remove(reservedBook);
-                break;
+                return;
             }
         }
+        throw new RuntimeException("User does not have this book borrowed");
     }
 
     public abstract boolean isAvailable();
