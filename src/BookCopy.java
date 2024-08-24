@@ -21,4 +21,12 @@ public class BookCopy {
         isBorrowed = borrowed;
     }
 
+    public Book getBook() {
+        return this.book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
 }

@@ -56,6 +56,15 @@ public class Book implements ISubject, IReservable {
         this.usersWhoBooked.remove(user);
     }
 
+    public BookCopy getAvailableCopy() {
+        for (BookCopy copy : this.copies) {
+            if (!copy.isBorrowed()) {
+                return copy;
+            }
+        }
+        return null;
+    }
+
     public int getNumAvailableCopies() {
         int count = 0;
         for (BookCopy copy : this.copies) {

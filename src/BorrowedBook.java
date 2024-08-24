@@ -23,7 +23,7 @@ class BorrowedBook{
     }
 
     public String getBookCode(){
-        return bookCopy.getBookCode();
+        return bookCopy.getBook().getBookCode();
     }
 
     public LoanStatus getStatus(){
