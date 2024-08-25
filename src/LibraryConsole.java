@@ -1,32 +1,70 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Scanner;
 
 public class LibraryConsole {
-    private Map<String, Command> commands;
-
     private static LibraryConsole instance;
+    private Scanner scanner;
+    private Library library;
 
-    private LibraryConsole() {
-        commands = new HashMap<>();
+    private LibraryConsole(Library library) {
+        scanner = new Scanner(System.in);
+        this.library = library;
     }
 
-    public static LibraryConsole getInstance() {
+    public static LibraryConsole getInstance(Library library) {
         if (instance == null) {
-            instance = new LibraryConsole();
+            instance = new LibraryConsole(library);
         }
         return instance;
     }
 
-    public void registerCommand(String commandName, Command command) {
-        commands.put(commandName, command);
+    public void start() {
+        while (true) {
+            System.out.print("Digite um comando: ");
+            String input = scanner.nextLine();
+            String[] parts = input.split(" ");
+            String action = parts[0];
+
+            if (action.equalsIgnoreCase("sai")) {
+                System.out.println("Encerrando o sistema...");
+                break;
+            }
+
+            executeCommand(action, parts);
+        }
     }
 
-    public void executeCommand(String commandName) {
-        Command command = commands.get(commandName);
+    private void executeCommand(String action, String[] params) {
+        Command command = null;
+
+        switch (action.toLowerCase()) {
+            case "emp":
+                command = new LoanCommand(library, params[1], params[2]);
+
+                break;
+            case "dev":
+                command = new ReturnCommand(library, params[1], params[2]);
+
+            // Adicione mais casos para outros comandos
+//            case "res":
+//                if (params.length >= 3) {
+//                    command = new ReserveCommand(library, params[1], params[2]);
+//                }
+//                break;
+//            case "obs":
+//                if (params.length >= 3) {
+//                    command = new ObserveCommand(library, params[1], params[2]);
+//                }
+//                break;
+            // E assim por diante para outros comandos
+            default:
+                System.out.println("Comando não reconhecido!");
+                break;
+        }
+
         if (command != null) {
             command.execute();
         } else {
-            System.out.println("Comando não encontrado.");
+            System.out.println("Parâmetros insuficientes ou comando inválido.");
         }
     }
 }
