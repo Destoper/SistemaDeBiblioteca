@@ -53,5 +53,16 @@ public class Library {
         }
     }
 
+    public void reserveBook(String userCode, String bookCode) {
+        User user = getUser(userCode);
+        Book book = getBook(bookCode);
+        try {
+            book.receiveReservationRequest(user);
+            System.out.println("Reserva realizada para usuário: " + userCode + " com livro: " + bookCode);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 }

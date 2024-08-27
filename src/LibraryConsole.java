@@ -43,13 +43,12 @@ public class LibraryConsole {
                 break;
             case "dev":
                 command = new ReturnCommand(library, params[1], params[2]);
+                break;
 
-            // Adicione mais casos para outros comandos
-//            case "res":
-//                if (params.length >= 3) {
-//                    command = new ReserveCommand(library, params[1], params[2]);
-//                }
-//                break;
+            case "res":
+                command = new ReserveCommand(library, params[1], params[2]);
+
+                break;
 //            case "obs":
 //                if (params.length >= 3) {
 //                    command = new ObserveCommand(library, params[1], params[2]);
