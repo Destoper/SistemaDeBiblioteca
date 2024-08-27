@@ -34,27 +34,30 @@ public class LibraryConsole {
     }
 
     private void executeCommand(String action, String[] params) {
-        Command command = null;
+        ICommand command = null;
 
         switch (action.toLowerCase()) {
             case "emp":
                 command = new LoanCommand(library, params[1], params[2]);
-
                 break;
             case "dev":
                 command = new ReturnCommand(library, params[1], params[2]);
                 break;
-
             case "res":
                 command = new ReserveCommand(library, params[1], params[2]);
-
                 break;
-//            case "obs":
-//                if (params.length >= 3) {
-//                    command = new ObserveCommand(library, params[1], params[2]);
-//                }
-//                break;
-            // E assim por diante para outros comandos
+            case "obs":
+                command = new ObserverCommand(library, params[1], params[2]);
+                break;
+            case "liv":
+                command = new ListBookCommand(library, params[1]);
+                break;
+            case "usu":
+                command = new ListUserCommand(library, params[1]);
+                break;
+            case "ntf":
+                command = new NotifyCommand(library, params[1]);
+                break;
             default:
                 System.out.println("Comando não reconhecido!");
                 break;

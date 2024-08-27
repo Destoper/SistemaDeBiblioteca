@@ -26,6 +26,10 @@ class BorrowedBook{
         return bookCopy.getBook().getBookCode();
     }
 
+    public String getTitle(){
+        return bookCopy.getTitle();
+    }
+
     public LoanStatus getStatus(){
         if (status == LoanStatus.BORROWED && LocalDate.now().isAfter(dateReturned)){
             return LoanStatus.LATE;

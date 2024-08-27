@@ -13,6 +13,10 @@ public class BookCopy {
         return this.copyCode;
     }
 
+    public String getTitle() {
+        return this.book.getTitle();
+    }
+
     public boolean isBorrowed() {
         return isBorrowed;
     }

@@ -1,9 +1,9 @@
-public class LoanCommand implements ICommand {
+public class ObserveCommand implements ICommand {
     private Library library;
     private String userCode;
     private String bookCode;
 
-    public LoanCommand(Library library, String userCode, String bookCode) {
+    public ObserveCommand(Library library, String userCode, String bookCode) {
         this.library = library;
         this.userCode = userCode;
         this.bookCode = bookCode;
@@ -11,6 +11,7 @@ public class LoanCommand implements ICommand {
 
     @Override
     public void execute() {
-        library.loanBook(userCode, bookCode);
+        library.addObserver(userCode, bookCode);
     }
+    
 }

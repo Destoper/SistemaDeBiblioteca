@@ -1,4 +1,4 @@
-public class ReturnCommand implements Command {
+public class ReturnCommand implements ICommand {
     private Library library;
     private String userCode;
     private String bookCode;

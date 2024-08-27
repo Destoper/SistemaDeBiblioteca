@@ -8,7 +8,7 @@ public class Book implements ISubject, IReservable {
     private String year;
     private String edition;
     private ArrayList<BookCopy> copies;
-    private ArrayList<User> usersWhoBooked;
+    private ArrayList<User> usersWhoReserved;
     private ArrayList<IObserver> observers;
     private final static int MIN_NOTIFY_OBSERVERS = 2;
 
@@ -20,7 +20,7 @@ public class Book implements ISubject, IReservable {
         this.year = year;
         this.edition = edition;
         this.copies = new ArrayList<>();
-        this.usersWhoBooked = new ArrayList<>();
+        this.usersWhoReserved = new ArrayList<>();
         this.observers = new ArrayList<>();
     }
 
@@ -42,18 +42,19 @@ public class Book implements ISubject, IReservable {
     }
 
     public void receiveReservationRequest(User user) {
-        if(!user.isReservationLimitReached()) {
-            this.usersWhoBooked.add(user);
-            user.addReservation(this);
-        }
+        if(user.isReservationLimitReached()) {
+            throw new RuntimeException("Limite de reservas atingido");
+        }   
+        this.usersWhoReserved.add(user);
+        user.addReservation(this);
 
-        if (this.usersWhoBooked.size() >= MIN_NOTIFY_OBSERVERS) {
+        if (this.usersWhoReserved.size() >= MIN_NOTIFY_OBSERVERS) {
             this.notifyObservers();
         }
     }
 
     public void removeReservationRequest(User user) {
-        this.usersWhoBooked.remove(user);
+        this.usersWhoReserved.remove(user);
     }
 
     public BookCopy getAvailableCopy() {
@@ -79,8 +80,8 @@ public class Book implements ISubject, IReservable {
         return this.getNumAvailableCopies() == 0;
     }
 
-    public boolean isFullyBooked() {
-        return this.usersWhoBooked.size() >= this.copies.size();
+    public boolean isFullyReserved(User user) {
+        return this.usersWhoReserved.size() > this.copies.size() || (this.usersWhoReserved.contains(user) && this.usersWhoReserved.size() != this.copies.size());
     }
 
     public void removeCopyByCopyCode(String copyCode) {
@@ -124,6 +125,9 @@ public class Book implements ISubject, IReservable {
         }
     }
 
+    public ArrayList<User> getUsersWhoReserved() {
+        return this.usersWhoReserved;
+    }
 
     public String getTitle() {
         return title;

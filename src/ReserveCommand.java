@@ -1,4 +1,4 @@
-public class ReserveCommand implements Command{
+public class ReserveCommand implements ICommand{
     private Library library;
     private String userCode;
     private String bookCode;

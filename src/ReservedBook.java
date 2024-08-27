@@ -21,4 +21,8 @@ public class ReservedBook {
     public String getBookCode(){
         return book.getBookCode();
     }
+
+    public String getTitle(){
+        return book.getTitle();
+    }
 }

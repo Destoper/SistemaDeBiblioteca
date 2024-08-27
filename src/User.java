@@ -6,7 +6,7 @@ public abstract class User {
     private String name;
     private ArrayList<BorrowedBook> borrowedBooks = new ArrayList<BorrowedBook>();
     private int maxBorrowedDays;
-    private static final int MAX_BOOKINGS = 3;
+    private static final int MAX_RESERVATIONS = 3;
 
     private ArrayList<ReservedBook> reservedBooks = new ArrayList<ReservedBook>();
 
@@ -57,6 +57,14 @@ public abstract class User {
     }
 
     public void addReservation(Book book) {
+        if (this.isReservationLimitReached()) {
+            throw new RuntimeException("User has reached the maximum number of reservations");
+        }
+
+        if (this.hasReserved(book)) {
+            throw new RuntimeException("User has already reserved this book");
+        }
+
         this.reservedBooks.add(new ReservedBook(book));
     }
 
@@ -73,8 +81,12 @@ public abstract class User {
         return this.reservedBooks;
     }
 
+    public ArrayList<BorrowedBook> getBorrowedBooks() {
+        return this.borrowedBooks;
+    }
+
     public boolean isReservationLimitReached() {
-        return this.reservedBooks.size() >= MAX_BOOKINGS;
+        return this.reservedBooks.size() >= MAX_RESERVATIONS;
     }
 
     public void setLoanStrategy(ILoanStrategy loanStrategy) {
@@ -94,18 +106,18 @@ public abstract class User {
             }
         }
 
-        for (ReservedBook reservedBook : this.reservedBooks) {
-            if (reservedBook.getBookCode().equals(bookCopy.getBook().getBookCode())) {
-                this.reservedBooks.remove(reservedBook);
-                break;
-            }
-        }
-
         if (this.canBorrow(book)) {
             bookCopy.setBorrowed(true);
             this.borrowedBooks.add(new BorrowedBook(bookCopy, this.maxBorrowedDays));
         } else {
             throw new RuntimeException("User cannot borrow this book");
+        }
+
+        for (ReservedBook reservedBook : this.reservedBooks) {
+            if (reservedBook.getBookCode().equals(bookCopy.getBook().getBookCode())) {
+                this.reservedBooks.remove(reservedBook);
+                break;
+            }
         }
 
     }
