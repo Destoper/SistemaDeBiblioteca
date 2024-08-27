@@ -85,32 +85,41 @@ public abstract class User {
         return this.borrowedBooks.size();
     }
 
-    public void borrowBook(BookCopy bookCopy) {
-
+    public void borrowBook(Book book) {
+        BookCopy bookCopy = book.getAvailableCopy();
         // verifica se ja tem o livro (Nao se precisa)
         for (BorrowedBook borrowedBook : this.borrowedBooks) {
             if (borrowedBook.getBookCopy() == bookCopy) {
-                return;
+                throw new RuntimeException("User already has this book borrowed");
             }
         }
 
         for (ReservedBook reservedBook : this.reservedBooks) {
-            if (reservedBook.getBookCode().equals(bookCopy.getBookCode())) {
+            if (reservedBook.getBookCode().equals(bookCopy.getBook().getBookCode())) {
                 this.reservedBooks.remove(reservedBook);
                 break;
             }
         }
 
-        this.borrowedBooks.add(new BorrowedBook(bookCopy, this.maxBorrowedDays));
+        if (this.canBorrow(book)) {
+            bookCopy.setBorrowed(true);
+            this.borrowedBooks.add(new BorrowedBook(bookCopy, this.maxBorrowedDays));
+        } else {
+            throw new RuntimeException("User cannot borrow this book");
+        }
+
     }
 
-    public void returnBookCopy(BookCopy bookCopy) {
+    public void returnBookCopy(String bookCode) {
+
         for (BorrowedBook reservedBook : this.borrowedBooks) {
-            if (reservedBook.getBookCopy() == bookCopy) {
+            if (reservedBook.getBookCode().equals(bookCode)) {
                 reservedBook.returnBookCopy();
-                break;
+                this.borrowedBooks.remove(reservedBook);
+                return;
             }
         }
+        throw new RuntimeException("User does not have this book borrowed");
     }
 
     public abstract boolean isAvailable();

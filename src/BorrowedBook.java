@@ -23,7 +23,7 @@ class BorrowedBook{
     }
 
     public String getBookCode(){
-        return bookCopy.getBookCode();
+        return bookCopy.getBook().getBookCode();
     }
 
     public LoanStatus getStatus(){
@@ -35,6 +35,7 @@ class BorrowedBook{
 
     public void returnBookCopy(){
         this.status = LoanStatus.RETURNED;
+        this.bookCopy.setBorrowed(false);
         this.dateReturned = LocalDate.now();
     }
 

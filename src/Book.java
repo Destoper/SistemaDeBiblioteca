@@ -1,18 +1,27 @@
 import java.util.ArrayList;
 
-public class Book implements ISubject, ILoanable {
+public class Book implements ISubject, IReservable {
+    private String bookCode;
+    private String title;
+    private String authors;
+    private String publisher;
+    private String year;
+    private String edition;
     private ArrayList<BookCopy> copies;
     private ArrayList<User> usersWhoBooked;
-    private String bookCode;
+    private ArrayList<IObserver> observers;
     private final static int MIN_NOTIFY_OBSERVERS = 2;
 
-    private ArrayList<IObserver> observers; 
-
-    public Book(String bookCode) {    
+    public Book(String bookCode, String title, String authors, String publisher, String year, String edition) {
         this.bookCode = bookCode;
-        this.copies = new ArrayList<BookCopy>();
-        this.usersWhoBooked = new ArrayList<User>();
-        this.observers = new ArrayList<IObserver>();
+        this.title = title;
+        this.authors = authors;
+        this.publisher = publisher;
+        this.year = year;
+        this.edition = edition;
+        this.copies = new ArrayList<>();
+        this.usersWhoBooked = new ArrayList<>();
+        this.observers = new ArrayList<>();
     }
 
     public void addCopy(BookCopy copy) {
@@ -32,9 +41,10 @@ public class Book implements ISubject, ILoanable {
         return null;
     }
 
-    public void receiveBookingRequest(User user) {
+    public void receiveReservationRequest(User user) {
         if(!user.isReservationLimitReached()) {
             this.usersWhoBooked.add(user);
+            user.addReservation(this);
         }
 
         if (this.usersWhoBooked.size() >= MIN_NOTIFY_OBSERVERS) {
@@ -42,8 +52,17 @@ public class Book implements ISubject, ILoanable {
         }
     }
 
-    public void removeBookingRequest(User user) {
+    public void removeReservationRequest(User user) {
         this.usersWhoBooked.remove(user);
+    }
+
+    public BookCopy getAvailableCopy() {
+        for (BookCopy copy : this.copies) {
+            if (!copy.isBorrowed()) {
+                return copy;
+            }
+        }
+        return null;
     }
 
     public int getNumAvailableCopies() {
@@ -103,6 +122,47 @@ public class Book implements ISubject, ILoanable {
         for (IObserver observer : this.observers) {
             observer.update();
         }
+    }
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthors() {
+        return authors;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public String getEdition() {
+        return edition;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthors(String authors) {
+        this.authors = authors;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
     }
 
 }
