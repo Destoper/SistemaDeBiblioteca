@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+import ErrorsHandlers.DoubleLoanException;
+import ErrorsHandlers.DoubleReservationException;
+import ErrorsHandlers.MaxReservationReachedException;
+import ErrorsHandlers.NothingToReturnException;
+
 public abstract class User {
     private ILoanStrategy loanStrategy;
     private String id;
@@ -58,11 +63,11 @@ public abstract class User {
 
     public void addReservation(Book book) {
         if (this.isReservationLimitReached()) {
-            throw new RuntimeException("User has reached the maximum number of reservations");
+            throw new MaxReservationReachedException();
         }
 
         if (this.hasReserved(book)) {
-            throw new RuntimeException("User has already reserved this book");
+            throw new DoubleReservationException();
         }
 
         this.reservedBooks.add(new ReservedBook(book));
@@ -102,16 +107,14 @@ public abstract class User {
         // verifica se ja tem o livro (Nao se precisa)
         for (BorrowedBook borrowedBook : this.borrowedBooks) {
             if (borrowedBook.getBookCopy() == bookCopy) {
-                throw new RuntimeException("User already has this book borrowed");
+                throw new DoubleLoanException();
             }
         }
 
         if (this.canBorrow(book)) {
             bookCopy.setBorrowed(true);
             this.borrowedBooks.add(new BorrowedBook(bookCopy, this.maxBorrowedDays));
-        } else {
-            throw new RuntimeException("User cannot borrow this book");
-        }
+        } 
 
         for (ReservedBook reservedBook : this.reservedBooks) {
             if (reservedBook.getBookCode().equals(bookCopy.getBook().getBookCode())) {
@@ -131,7 +134,7 @@ public abstract class User {
                 return;
             }
         }
-        throw new RuntimeException("User does not have this book borrowed");
+        throw new NothingToReturnException();
     }
 
     public abstract boolean isAvailable();

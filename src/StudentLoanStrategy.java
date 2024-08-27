@@ -1,11 +1,20 @@
+import ErrorsHandlers.*;
+
 public class StudentLoanStrategy implements ILoanStrategy {
     @Override
     public boolean checkLoanEligibility(User user, Book book) {
-        if (book.isFullyBorrowed() || !user.isAvailable()) {
-            return false;
+        if (book.isFullyBorrowed()) {
+            throw new FullyBorrowedException();
         }
 
-        return !book.isFullyReserved(user) || user.hasReserved(book);
+        if (!user.isAvailable()) {
+            throw new UserNotAvailableException();
+        }
+
+        if (book.isFullyReserved(user) && !user.hasReserved(book)) {
+            throw new BookNotReservedByUserException();
+        }
+
+        return true;
     }
 }
-

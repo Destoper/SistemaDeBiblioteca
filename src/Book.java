@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import ErrorsHandlers.*;
 
 public class Book implements ISubject, IReservable {
     private String bookCode;
@@ -43,7 +44,7 @@ public class Book implements ISubject, IReservable {
 
     public void receiveReservationRequest(User user) {
         if(user.isReservationLimitReached()) {
-            throw new RuntimeException("Limite de reservas atingido");
+            throw new MaxReservationReachedException();
         }   
         this.usersWhoReserved.add(user);
         user.addReservation(this);

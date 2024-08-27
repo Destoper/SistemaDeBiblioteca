@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+import ErrorsHandlers.BookNotRegisteredException;
+import ErrorsHandlers.UserNotRegisteredException;
+
 public class Library {
     private final ArrayList<User> users = new ArrayList<>();
     private final ArrayList<Book> books = new ArrayList<>();
@@ -18,7 +21,7 @@ public class Library {
                 return user;
             }
         }
-        throw new RuntimeException("Usuário com o código " + id + " não encontrado.");
+        throw new UserNotRegisteredException(id);
     }
 
     public Book getBook(String bookCode) {
@@ -27,7 +30,7 @@ public class Library {
                 return book;
             }
         }
-        throw new RuntimeException("Livro com o código " + bookCode + " não encontrado.");
+        throw new BookNotRegisteredException(bookCode);
     }
 
     public void loanBook(String userCode, String bookCode) {
