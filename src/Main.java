@@ -34,36 +34,6 @@ public class Main {
 
         LibraryConsole console = LibraryConsole.getInstance(library);
         console.start(); // Inicia a leitura de comandos
-//
-//        // Configurando comandos na LibraryConsole
-//        LibraryConsole console = LibraryConsole.getInstance();
-//
-//        // Registrar comandos para empréstimo e devolução
-//        console.registerCommand("emp", new LoanCommand(library, "123", "100"));  // Empréstimo do livro 100 para o usuário 123
-//        //console.registerCommand("dev", new ReturnCommand(library, "123", "100")); // Devolução do livro 100 pelo usuário 123
-//        console.executeCommand("emp");
-//        console.registerCommand("emp", new LoanCommand(library, "123", "101"));
-//        console.executeCommand("emp");
-//        console.registerCommand("emp", new LoanCommand(library, "123", "200"));
-//        console.executeCommand("emp");
-////        console.registerCommand("dev", new ReturnCommand(library, "123", "100"));
-////        console.executeCommand("dev");
-//        console.registerCommand("emp", new LoanCommand(library, "123", "201"));
-//        console.executeCommand("emp");
-
-
-
-//        console.registerCommand("emp", new LoanCommand(library, "100", "100"));
-//        console.executeCommand("emp");
-//
-//        console.registerCommand("emp", new LoanCommand(library, "100", "101"));
-//        console.executeCommand("emp");
-//
-//        console.registerCommand("emp", new LoanCommand(library, "100", "200"));
-//        console.executeCommand("emp");
-//
-//        console.registerCommand("emp", new LoanCommand(library, "100", "201"));
-//        console.executeCommand("emp");
 
 
 
