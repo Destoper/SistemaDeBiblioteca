@@ -129,7 +129,7 @@ public abstract class User {
     public void returnBookCopy(String bookCode) {
 
         for (BorrowedBook reservedBook : this.borrowedBooks) {
-            if (reservedBook.getBookCode().equals(bookCode)) {
+            if (reservedBook.getBookCode().equals(bookCode) && reservedBook.getStatus() == LoanStatus.BORROWED) {
                 reservedBook.returnBookCopy();
                 return;
             }

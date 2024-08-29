@@ -43,11 +43,8 @@ public class Book implements ISubject, IReservable {
     }
 
     public void receiveReservationRequest(User user) {
-        if(user.isReservationLimitReached()) {
-            throw new MaxReservationReachedException();
-        }   
-        this.usersWhoReserved.add(user);
         user.addReservation(this);
+        this.usersWhoReserved.add(user);
 
         if (this.usersWhoReserved.size() >= MIN_NOTIFY_OBSERVERS) {
             this.notifyObservers();

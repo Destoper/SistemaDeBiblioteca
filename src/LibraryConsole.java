@@ -17,15 +17,24 @@ public class LibraryConsole {
         return instance;
     }
 
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
+
+    public void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public void start() {
         while (true) {
-            System.out.print("Digite um comando: ");
+            System.out.print("[ :) ] Digite um comando: ");
             String input = scanner.nextLine();
             String[] parts = input.split(" ");
             String action = parts[0];
 
             if (action.equalsIgnoreCase("sai")) {
-                System.out.println("Encerrando o sistema...");
+                System.out.println("[ :( ] Encerrando o sistema...");
                 break;
             }
 

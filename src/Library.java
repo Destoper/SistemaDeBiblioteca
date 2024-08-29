@@ -6,7 +6,7 @@ import ErrorsHandlers.UserNotRegisteredException;
 public class Library {
     private final ArrayList<User> users = new ArrayList<>();
     private final ArrayList<Book> books = new ArrayList<>();
-
+    private LibraryConsole console = LibraryConsole.getInstance(this);
 
     public void addUser(User user) {
         users.add(user);
@@ -39,14 +39,18 @@ public class Library {
         try {
             User user = getUser(userCode);
             Book book = getBook(bookCode);
-
-            System.out.println(user.getName());
-            System.out.println(book.getTitle());
             user.borrowBook(book);
 
-            System.out.println("Empréstimo realizado para usuário: " + userCode + " com livro: " + bookCode);
+            this.console.clearConsole();
+            this.console.printMessage("");
+            this.console.printMessage("[-] Empréstimo realizado para usuário " + user.getName() + " (" + userCode + ")"
+                    + " com livro: " + book.getTitle() + " (" + bookCode + ")");
+            this.console.printMessage("");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            this.console.clearConsole();
+            this.console.printMessage("");
+            this.console.printMessage(e.getMessage());
+            this.console.printMessage("");
         }
     }
 
@@ -54,9 +58,16 @@ public class Library {
         try {
             User user = getUser(userCode);
             user.returnBookCopy(bookCode);
-            System.out.println("Livro devolvido pelo usuário: " + userCode + " com livro: " + bookCode);
+
+            this.console.clearConsole();
+            this.console.printMessage("");
+            this.console.printMessage("[-] Livro " + bookCode + " devolvido pelo usuário " + user.getName() + " (" + userCode + ")");
+            this.console.printMessage("");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            this.console.clearConsole();
+            this.console.printMessage("");
+            this.console.printMessage(e.getMessage());
+            this.console.printMessage("");
         }
     }
 
@@ -65,9 +76,17 @@ public class Library {
             User user = getUser(userCode);
             Book book = getBook(bookCode);
             book.receiveReservationRequest(user);
-            System.out.println("Reserva realizada para usuário: " + userCode + " com livro: " + bookCode);
+
+            this.console.clearConsole();
+            this.console.printMessage("");
+            this.console.printMessage("[-] Reserva realizada para usuário " + user.getName() + " (" + userCode + ")"
+                    + " com livro: " + book.getTitle() + " (" + bookCode + ")");
+            this.console.printMessage("");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            this.console.clearConsole();
+            this.console.printMessage("");
+            this.console.printMessage(e.getMessage());
+            this.console.printMessage("");
         }
     }
 
@@ -75,47 +94,53 @@ public class Library {
         try {
             Book book = getBook(bookCode);
 
-            System.out.println("Título: " + book.getTitle());
+            this.console.clearConsole();
+            this.console.printMessage("----------------------=================----------------------");
+            this.console.printMessage("Título: " + book.getTitle());
 
+            this.console.printMessage("----------------------=================----------------------");
             int numReservations = book.getUsersWhoReserved().size();
-            System.out.println("Quantidade de reservas: " + numReservations);
+            this.console.printMessage("Quantidade de reservas: " + numReservations);
 
             if (numReservations > 0) {
-                System.out.println("Usuários que fizeram reservas:");
+                this.console.printMessage("Usuários que fizeram reservas:");
                 for (User user : book.getUsersWhoReserved()) {
-                    System.out.println("- " + user.getName());
+                    this.console.printMessage("- " + user.getName());
+                    this.console.printMessage("");
                 }
             }
 
-            System.out.println("Detalhes dos exemplares:");
+            this.console.printMessage("----------------------=================----------------------");
+
+            this.console.printMessage("Detalhes dos exemplares:");
+
+            this.console.printMessage("----------------------=================----------------------");
+
             for (BookCopy copy : book.getCopies()) {
-                System.out.println("Código do exemplar: " + copy.getCopyCode());
+                this.console.printMessage("Código do exemplar: " + copy.getCopyCode());
                 if (!copy.isBorrowed()) {
-                    System.out.println("Status: Disponível");
+                    this.console.printMessage("Status: Disponível");
                 } else {
                     for (User user : this.users) {
                         for (BorrowedBook borrowedBook : user.getBorrowedBooks()) {
                             if (borrowedBook.getBookCopy().getCopyCode().equals(copy.getCopyCode())) {
-                                System.out.println("Status: Emprestado");
-                                System.out.println("Emprestado por: " + user.getName());
-                                System.out.println("Data de empréstimo: " + borrowedBook.getDateBorrowed());
-                                System.out.println("Data prevista para devolução: " + borrowedBook.getDateReturned());
+                                this.console.printMessage("Status: Emprestado");
+                                this.console.printMessage("Emprestado por: " + user.getName());
+                                this.console.printMessage("Data de empréstimo: " + borrowedBook.getDateBorrowed());
+                                this.console.printMessage(
+                                        "Data prevista para devolução: " + borrowedBook.getDateReturned());
                             }
                         }
                     }
-                    // BorrowedBook borrowedBook = copy.getBorrowedBookInfo();
-
-                    // System.out.println("Status: Emprestado");
-                    // System.out.println("Emprestado por: " +
-                    // borrowedBook.getBookCopy().getBorrower().getName());
-                    // System.out.println("Data de empréstimo: " + borrowedBook.getDateBorrowed());
-                    // System.out.println("Data prevista para devolução: " +
-                    // borrowedBook.getDateReturned());
                 }
-                System.out.println();
+                this.console.printMessage("----------------------*****************----------------------");
+                this.console.printMessage("");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            this.console.clearConsole();
+            this.console.printMessage("");
+            this.console.printMessage(e.getMessage());
+            this.console.printMessage("");
         }
     }
 
@@ -123,28 +148,37 @@ public class Library {
         try {
             User user = getUser(userCode);
 
-            System.out.println("Empréstimos de " + user.getName() + ":");
+            this.console.clearConsole();
 
-            // Listando todos os empréstimos
+            this.console.printMessage("----------------------=================----------------------");
+
+            this.console.printMessage("Empréstimos de " + user.getName() + ":");
+
+            this.console.printMessage("----------------------=================----------------------");
             for (BorrowedBook borrowedBook : user.getBorrowedBooks()) {
-                System.out.println("Título: " + borrowedBook.getTitle());
-                System.out.println("Data do Empréstimo: " + borrowedBook.getDateBorrowed());
-                System.out.println("Status: " + borrowedBook.getSemanticStatus());
-
-                System.out.println("Data de Devolução: " + borrowedBook.getDateReturned());
-                System.out.println();
+                this.console.printMessage("Título: " + borrowedBook.getTitle());
+                this.console.printMessage("Data do Empréstimo: " + borrowedBook.getDateBorrowed());
+                this.console.printMessage("Status: " + borrowedBook.getSemanticStatus());
+                this.console.printMessage("Data de Devolução: " + borrowedBook.getDateReturned());
+                this.console.printMessage("");
             }
 
-            System.out.println("Reservas de " + user.getName() + ":");
+            this.console.printMessage("----------------------=================----------------------");
 
-            // Listando todas as reservas
+            this.console.printMessage("Reservas de " + user.getName() + ":");
+
             for (ReservedBook reservedBook : user.getReservedBooks()) {
-                System.out.println("Título: " + reservedBook.getTitle());
-                System.out.println("Data da Solicitação: " + reservedBook.getDateBorrowed());
-                System.out.println();
+                this.console.printMessage("Título: " + reservedBook.getTitle());
+                this.console.printMessage("Data da Solicitação: " + reservedBook.getDateBorrowed());
+                this.console.printMessage("");
             }
+            this.console.printMessage("----------------------=================----------------------");
+            this.console.printMessage("");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            this.console.clearConsole();
+            this.console.printMessage("");
+            this.console.printMessage(e.getMessage());
+            this.console.printMessage("");
         }
     }
 
@@ -153,12 +187,19 @@ public class Library {
             Book book = getBook(bookCode);
             User user = getUser(userCode);
 
+            this.console.clearConsole();
+
             Professor professor = (Professor) user;
             book.registerObserver(professor);
-            System.out.println("O usuário " + userCode + " foi adicionado como observador do livro " + bookCode);
+            this.console
+                    .printMessage("[-] O professor "+ user.getName() +" (" + userCode + ") foi registrado como observador do livro " + book.getTitle() + " (" + bookCode + ")");
+            this.console.printMessage("");
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            this.console.clearConsole();
+            this.console.printMessage("");
+            this.console.printMessage(e.getMessage());
+            this.console.printMessage("");
         }
     }
 
@@ -166,12 +207,16 @@ public class Library {
         try {
             User user = getUser(userCode);
 
+            this.console.clearConsole();
             Professor professor = (Professor) user;
             System.out
-                    .println("O professor " + userCode + " foi notificado " + professor.getTimesNotified() + " vezes");
-
+                    .println("[-] O professor " + user.getName() + " (" + userCode + ") foi notificado"+ professor.getTimesNotified() + " vezes.");
+            this.console.printMessage("");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            this.console.clearConsole();
+            this.console.printMessage("");
+            this.console.printMessage(e.getMessage());
+            this.console.printMessage("");
         }
     }
 }
