@@ -13,6 +13,10 @@ public class BookCopy {
         return this.copyCode;
     }
 
+    public String getBookCode() {
+        return this.book.getBookCode();
+    }
+
     public String getTitle() {
         return this.book.getTitle();
     }

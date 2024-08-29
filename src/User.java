@@ -40,6 +40,7 @@ public abstract class User {
     }
 
     public boolean canBorrow(Book book) {
+
         return this.loanStrategy.checkLoanEligibility(this, book);
     }
 
@@ -104,9 +105,9 @@ public abstract class User {
 
     public void borrowBook(Book book) {
         BookCopy bookCopy = book.getAvailableCopy();
-        // verifica se ja tem o livro (Nao se precisa)
+        // verifica se ja tem o livro (Nao sei se precisa)
         for (BorrowedBook borrowedBook : this.borrowedBooks) {
-            if (borrowedBook.getBookCopy() == bookCopy) {
+            if (borrowedBook.getBookCode() == bookCopy.getBookCode()) {
                 throw new DoubleLoanException();
             }
         }
@@ -130,7 +131,6 @@ public abstract class User {
         for (BorrowedBook reservedBook : this.borrowedBooks) {
             if (reservedBook.getBookCode().equals(bookCode)) {
                 reservedBook.returnBookCopy();
-                this.borrowedBooks.remove(reservedBook);
                 return;
             }
         }

@@ -19,22 +19,29 @@ class BorrowedBook{
     }
 
     public LocalDate getDateBorrowed(){
-        return dateBorrowed;
+        return this.dateBorrowed;
     }
 
     public String getBookCode(){
-        return bookCopy.getBook().getBookCode();
+        return this.bookCopy.getBook().getBookCode();
     }
 
     public String getTitle(){
-        return bookCopy.getTitle();
+        return this.bookCopy.getTitle();
+    }
+
+    public String getSemanticStatus(){
+        if (this.status == LoanStatus.BORROWED && LocalDate.now().isAfter(dateReturned)){
+            return "Atrasado";
+        }
+        return this.status == LoanStatus.RETURNED ? "Finalizado" : "Em curso";
     }
 
     public LoanStatus getStatus(){
-        if (status == LoanStatus.BORROWED && LocalDate.now().isAfter(dateReturned)){
+        if (this.status == LoanStatus.BORROWED && LocalDate.now().isAfter(dateReturned)){
             return LoanStatus.LATE;
         }
-        return status;
+        return this.status;
     }
 
     public void returnBookCopy(){
@@ -49,7 +56,7 @@ class BorrowedBook{
     }
 
     public LocalDate getDateReturned(){
-        return dateReturned;
+        return this.dateReturned;
     }
 
 }
