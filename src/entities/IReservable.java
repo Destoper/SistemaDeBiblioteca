@@ -1,3 +1,5 @@
+import entities.User;
+
 public interface IReservable {
     public void receiveReservationRequest(User user);
     public void removeReservationRequest(User user);
