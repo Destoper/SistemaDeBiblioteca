@@ -1,3 +1,7 @@
+package entities;
+
+import entities.Book;
+
 import java.time.LocalDate;
 
 public class ReservedBook {

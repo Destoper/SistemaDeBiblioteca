@@ -1,4 +1,9 @@
+package strategy;
+
 import ErrorsHandlers.*;
+import entities.Book;
+import entities.User;
+import strategy.ILoanStrategy;
 
 public class StudentLoanStrategy implements ILoanStrategy {
     @Override

@@ -1,15 +1,18 @@
+package entities;
 import java.util.ArrayList;
 
 import ErrorsHandlers.DoubleLoanException;
 import ErrorsHandlers.DoubleReservationException;
 import ErrorsHandlers.MaxReservationReachedException;
 import ErrorsHandlers.NothingToReturnException;
+import strategy.*;
 
 public abstract class User {
     private ILoanStrategy loanStrategy;
     private String id;
     private String name;
     private ArrayList<BorrowedBook> borrowedBooks = new ArrayList<BorrowedBook>();
+    private ArrayList<BorrowedBook> historyOfBorrowedBooks = new ArrayList<BorrowedBook>();
     private int maxBorrowedDays;
     private static final int MAX_RESERVATIONS = 3;
 
@@ -118,8 +121,9 @@ public abstract class User {
         } 
 
         for (ReservedBook reservedBook : this.reservedBooks) {
-            if (reservedBook.getBookCode().equals(bookCopy.getBook().getBookCode())) {
+            if (reservedBook.getBookCode().equals(bookCopy.getBookCode())) {
                 this.reservedBooks.remove(reservedBook);
+                book.removeReservationRequest(this);
                 break;
             }
         }
@@ -131,6 +135,8 @@ public abstract class User {
         for (BorrowedBook reservedBook : this.borrowedBooks) {
             if (reservedBook.getBookCode().equals(bookCode) && reservedBook.getStatus() == LoanStatus.BORROWED) {
                 reservedBook.returnBookCopy();
+                this.borrowedBooks.remove(reservedBook);
+                this.historyOfBorrowedBooks.add(reservedBook);
                 return;
             }
         }

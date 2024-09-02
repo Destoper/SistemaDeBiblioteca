@@ -1,3 +1,7 @@
+package entities;
+
+import entities.Book;
+
 public class BookCopy {
     private final String copyCode;
     private boolean isBorrowed = false;

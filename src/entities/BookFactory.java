@@ -1,3 +1,8 @@
+package entities;
+
+import entities.Book;
+import entities.BookCopy;
+
 public class BookFactory {
     private static int copyCodeCounter = 0;
 

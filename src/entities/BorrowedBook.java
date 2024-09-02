@@ -1,7 +1,9 @@
+package entities;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-class BorrowedBook{
+public class BorrowedBook{
     private BookCopy bookCopy;
     private LocalDate dateBorrowed;
     private LocalDate dateReturned;

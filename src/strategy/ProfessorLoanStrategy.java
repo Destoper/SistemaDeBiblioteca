@@ -1,3 +1,8 @@
+package strategy;
+
+import entities.Book;
+import entities.User;
+
 public class ProfessorLoanStrategy implements ILoanStrategy {
     @Override
     public boolean checkLoanEligibility(User user, Book book) {

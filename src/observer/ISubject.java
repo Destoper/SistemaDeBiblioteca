@@ -1,3 +1,4 @@
+package observer;
 
 public interface ISubject {
     void registerObserver(IObserver observer);

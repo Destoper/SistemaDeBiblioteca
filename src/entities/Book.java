@@ -1,5 +1,8 @@
+package entities;
+
 import java.util.ArrayList;
 import ErrorsHandlers.*;
+import observer.*;
 
 public class Book implements ISubject, IReservable {
     private String bookCode;

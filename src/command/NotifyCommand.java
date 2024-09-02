@@ -1,3 +1,7 @@
+package command;
+
+import system.Library;
+
 public class NotifyCommand  implements ICommand {
     private Library library;
     private String userCode;

@@ -1,3 +1,8 @@
+package command;
+
+import command.ICommand;
+import system.Library;
+
 public class LoanCommand implements ICommand {
     private Library library;
     private String userCode;

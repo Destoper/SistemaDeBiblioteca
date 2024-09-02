@@ -1,3 +1,7 @@
+package strategy;
+
+import entities.User;
+
 public class PostGradStudent extends User {
     static final int MAX_BORROWED_BOOKS = 4;
     static final int MAX_BORROWED_DAYS = 5;

@@ -1,3 +1,8 @@
+package entities;
+
+import entities.User;
+import strategy.ILoanStrategy;
+
 public class GradStudent extends User {
     static final int MAX_BORROWED_BOOKS = 3;
     static final int MAX_BORROWED_DAYS = 3;

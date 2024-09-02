@@ -1,4 +1,8 @@
-public class ReserveCommand implements ICommand{
+package command;
+
+import system.Library;
+
+public class ReserveCommand implements ICommand {
     private Library library;
     private String userCode;
     private String bookCode;

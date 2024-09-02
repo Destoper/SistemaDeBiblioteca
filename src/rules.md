@@ -37,7 +37,7 @@ devem manter as seguintes informações adicionais: editora, autores, edição e
 	------------------------------------------
 	Aluno Graduação     | 3 dias
 	Aluno Pós-Graduação | 5 dias
-	Professor           | 7 dias
+	entities.Professor           | 7 dias
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 

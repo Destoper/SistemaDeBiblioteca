@@ -1,7 +1,10 @@
+package system;
+
 import java.util.ArrayList;
 
 import ErrorsHandlers.BookNotRegisteredException;
 import ErrorsHandlers.UserNotRegisteredException;
+import entities.*;
 
 public class Library {
     private final ArrayList<User> users = new ArrayList<>();

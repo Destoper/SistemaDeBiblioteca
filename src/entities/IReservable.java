@@ -1,3 +1,5 @@
+package entities;
+
 import entities.User;
 
 public interface IReservable {

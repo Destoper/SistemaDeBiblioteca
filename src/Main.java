@@ -1,3 +1,8 @@
+import entities.*;
+import strategy.*;
+import system.Library;
+import system.LibraryConsole;
+
 public class Main {
     public static void main(String[] args) {
         // Criação da biblioteca

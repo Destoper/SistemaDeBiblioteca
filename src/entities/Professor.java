@@ -1,3 +1,8 @@
+package entities;
+
+import observer.IObserver;
+import strategy.ILoanStrategy;
+
 public class Professor extends User implements IObserver {
     static final int MAX_BORROWED_BOOKS = 3;
     private int timesNotified;
